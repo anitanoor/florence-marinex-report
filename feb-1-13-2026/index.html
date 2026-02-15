@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Performance Report — Florence Marine X | Feb 1–13, 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #f5f4f1;
+            --surface: #ffffff;
+            --border: #e5e2dc;
+            --border-light: #eeece8;
+            --text: #1B1513;
+            --text-muted: #6b6560;
+            --text-light: #9a9590;
+            --accent: #FF4A00;
+            --accent-dim: rgba(255, 74, 0, 0.08);
+            --accent-medium: rgba(255, 74, 0, 0.14);
+            --green: #1a8a5a;
+            --green-dim: rgba(26, 138, 90, 0.08);
+            --amber: #c48a1a;
+            --amber-dim: rgba(196, 138, 26, 0.08);
+            --red: #c44a2a;
+            --red-dim: rgba(196, 74, 42, 0.08);
+            --blue: #2a6ab4;
+            --blue-dim: rgba(42, 106, 180, 0.08);
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .page-wrapper {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 28px;
+            border-bottom: 2px solid var(--border);
+            animation: fadeDown 0.6s ease-out;
+        }
+        .header-left { flex: 1; }
+        .report-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .report-label::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .client-name {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .period-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .period-meta span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .period-meta strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .header-logo {
+            flex-shrink: 0;
+            margin-left: 32px;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 2px;
+        }
+        .header-logo img { height: 40px; }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .metric-card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            padding: 24px 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.5s ease-out both;
+            box-shadow: 0 1px 3px rgba(27, 21, 19, 0.04);
+        }
+        .metric-card:nth-child(1) { animation-delay: 0.1s; }
+        .metric-card:nth-child(2) { animation-delay: 0.15s; }
+        .metric-card:nth-child(3) { animation-delay: 0.2s; }
+        .metric-card:nth-child(4) { animation-delay: 0.25s; }
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+        .metric-card.orange::before { background: var(--accent); }
+        .metric-card.green::before { background: var(--green); }
+        .metric-card.blue::before { background: var(--blue); }
+        .metric-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+        .metric-value {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+        .metric-unit {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+        .metric-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        .badge.excellent { background: var(--green-dim); color: var(--green); }
+        .badge.strong { background: var(--blue-dim); color: var(--blue); }
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.5s ease-out both;
+            box-shadow: 0 1px 3px rgba(27, 21, 19, 0.04);
+        }
+        .section.delay-1 { animation-delay: 0.3s; }
+        .section.delay-2 { animation-delay: 0.35s; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .section-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .section-icon.amber-bg { background: var(--amber-dim); color: var(--amber); }
+        .section-icon.red-bg { background: var(--red-dim); color: var(--red); }
+        .section-icon.green-bg { background: var(--green-dim); color: var(--green); }
+        .section-icon.orange-bg { background: var(--accent-dim); color: var(--accent); }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            color: var(--text);
+        }
+        .section-body {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .section-body strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .ticket-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .ticket-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            background: var(--accent-dim);
+            padding: 5px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 74, 0, 0.12);
+            transition: all 0.2s ease;
+        }
+        .ticket-link:hover {
+            background: var(--accent-medium);
+            border-color: rgba(255, 74, 0, 0.25);
+        }
+        .resolved-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--green);
+            background: var(--green-dim);
+            padding: 5px 12px;
+            border-radius: 6px;
+            margin-top: 14px;
+        }
+        .highlights {
+            background: var(--surface);
+            border: 2px solid rgba(255, 74, 0, 0.18);
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.5s ease-out 0.45s both;
+            box-shadow: 0 1px 3px rgba(27, 21, 19, 0.04);
+        }
+        .highlights .section-header { margin-bottom: 16px; }
+        .highlight-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13.5px;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .highlight-item .check {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 1px;
+        }
+        .footer {
+            margin-top: 36px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeUp 0.5s ease-out 0.55s both;
+        }
+        .footer-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+        }
+        .footer-brand {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .footer-brand span { color: var(--accent); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .highlight-items { grid-template-columns: 1fr; }
+            .client-name { font-size: 26px; }
+            .metric-value { font-size: 34px; }
+            .header { flex-direction: column-reverse; gap: 20px; }
+            .header-logo { margin-left: 0; }
+            .period-meta { gap: 12px; }
+        }
+        @media (max-width: 480px) {
+            .metrics-grid { grid-template-columns: 1fr; }
+            .page-wrapper { padding: 24px 16px 40px; }
+            .footer { flex-direction: column; gap: 8px; text-align: center; }
+            .period-meta { flex-direction: column; gap: 4px; }
+        }
+        @media print {
+            body { background: #fff; }
+            .metric-card, .section, .highlights { box-shadow: none; border-color: #ddd; break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <header class="header">
+        <div class="header-left">
+            <div class="report-label">AI Agent Bi-Weekly Performance Report</div>
+            <h1 class="client-name">Florence Marine X</h1>
+            <div class="period-meta">
+                <span><strong>Period:</strong> Feb 1 – 13, 2026</span>
+                <span><strong>Team:</strong> Influx</span>
+                <span><strong>Date:</strong> Feb 14, 2026</span>
+            </div>
+        </div>
+        <div class="header-logo">
+            <a href="https://influx.com" target="_blank">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEwIiBoZWlnaHQ9IjE0NyIgdmlld0JveD0iMCAwIDYxNCAxNzciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yMzcuMzIzIDM0LjMyODNIMjE2Ljg0OFYxNDguOTA3SDIzNy4zMjNWMzQuMzI4M1oiIGZpbGw9IiMxQjE1MTMiLz4KPHBhdGggZD0iTTI1NC4yODIgMTQ4LjkwN0gyNzMuOTdWOTQuNDE3QzI3Ni4xMzYgODYuMjA2MSAyODMuODE0IDgxLjE2NzYgMjkyLjI4IDgxLjE2NzZDMzAzLjUwMiA4MS4xNjc2IDMwOC44MTggODcuODg1NiAzMDguODE4IDk4LjE0OTJWMTQ4LjkwN0gzMjguNTA1Vjk0Ljk3NjlDMzI4LjUwNSA3Ni42ODkgMzE3LjQ4IDY0LjE4NiAyOTcuNTk2IDY0LjE4NkMyODcuMzU4IDY0LjE4NiAyNzguNjk1IDY4LjY2NDcgMjczLjk3IDczLjg4OThWNjYuMDUyMUgyNTQuMjgyVjE0OC45MDdaIiBmaWxsPSIjMUIxNTEzIi8+CjxwYXRoIGQ9Ik0zOTUuMjUyIDI3Ljk4MzVDMzkxLjcwOCAyNi40OTA2IDM4Ny45NjcgMjUuNzQ0MSAzODIuMjU4IDI1Ljc0NDFDMzY1LjkxNyAyNS43NDQxIDM1My41MTQgMzUuNDQ3OSAzNTMuNTE0IDUzLjE3NlY2Ni4wNTIxSDMzOC4zNTRWODEuNTQwOUgzNTMuNTE0VjE0OC45MDdIMzcyLjgwOFY4MS41NDA5SDM5MS45MDVWNjYuMDUyMUgzNzIuODA4VjU0LjQ4MjJDMzcyLjgwOCA0Ni4yNzE0IDM3Ny43MyA0MS43OTI3IDM4NS42MDUgNDEuNzkyN0MzODguNzU1IDQxLjc5MjcgMzkyLjI5OSA0Mi41MzkxIDM5NS4yNTIgNDQuNDA1M1YyNy45ODM1WiIgZmlsbD0iIzFCMTUxMyIvPgo8cGF0aCBkPSJNNDI2LjIzNyAyNy42MTAySDQwNi41NDlWMTQ4LjkwN0g0MjYuMjM3VjI3LjYxMDJaIiBmaWxsPSIjMUIxNTEzIi8+CjxwYXRoIGQ9Ik01MTYuNTEzIDY2LjA1MjFINDk2LjgyNlYxMjAuNTQzQzQ5NC42NiAxMjguNzUzIDQ4Ny4xNzkgMTMzLjc5MiA0NzguNzEzIDEzMy43OTJDNDY3LjQ5MSAxMzMuNzkyIDQ2Mi4zNzIgMTI3LjA3NCA0NjIuMzcyIDExNi44MVY2Ni4wNTIxSDQ0Mi42ODRWMTE5Ljk4M0M0NDIuNjg0IDEzOC4yNzEgNDUzLjUxMyAxNTAuNzc0IDQ3My4zOTcgMTUwLjc3NEM0ODMuNjM1IDE1MC43NzQgNDkyLjEwMSAxNDYuMjk1IDQ5Ni44MjYgMTQxLjA3VjE0OC45MDdINTE2LjUxM1Y2Ni4wNTIxWiIgZmlsbD0iIzFCMTUxMyIvPgo8cGF0aCBkPSJNNjExLjYzNyA2Ni4wNTIxSDU5MC41NzJMNTcwLjg4NCA5Mi4xNzc3TDU1MS43ODcgNjYuMDUyMUg1MjkuNTRMNTU5LjY2MiAxMDYuMzZMNTI3LjE3NyAxNDguOTA3SDU0OC4yNDNMNTcwLjA5NiAxMTkuNjFMNTkxLjc1MyAxNDguOTA3SDYxNEw1ODEuMzE4IDEwNS42MTRMNjExLjYzNyA2Ni4wNTIxWiIgZmlsbD0iIzFCMTUxMyIvPgo8cGF0aCBkPSJNMTE2Ljg1OSAxMzEuNTQ5QzEwOC42MjMgMTM2Ljg5MiA5OC44MjkgMTQwLjIzIDg4LjE0NDggMTQwLjIzQzc3LjQ2MDYgMTQwLjIzIDY3LjY2NjcgMTM3LjExNCA1OS40MzEgMTMxLjU0OUwzMy42MTA4IDE1Ny41OTJDNDguNTI0MSAxNjkuMzg5IDY3LjY2NjcgMTc2LjUxMiA4OC4xNDQ4IDE3Ni41MTJDMTA4LjYyMyAxNzYuNTEyIDEyNy43NjUgMTY5LjM4OSAxNDIuNjc5IDE1Ny41OTJMMTE2Ljg1OSAxMzEuNTQ5Wk0zNi4yODE4IDg0LjM2NzRDMzYuMjgxOCA3Ny42ODMyIDM5LjM5OCA2Ny44ODkzIDQ0Ljk2MjcgNTkuNjUzNUwxOC45MiAzMy42MTA4QzcuMTIyODEgNDguNzQ2NyAwIDY3LjY2NjcgMCA4OC4zNjc0QzAgMTA5LjA2OCA3LjEyMjgxIDEyNy45ODggMTguOTIgMTQyLjkwMUw0NC45NjI3IDExNi44NTlDMzkuMzk4IDEwOC42MjMgMzYuMjgxOCA5OC44MjkgMzYuMjgxOCA4OC4zNjc0Wk04OC4zNjc0IDBDNjcuNjY2NyAwIDQ4Ljc0NjcgNy4xMjI4MSAzMy44MzM0IDE4LjkyTDU5Ljg3NjEgNDQuOTYyN0M2OC4xMTE5IDM5LjYyMDYgNzcuOTA1NyAzNi4yODE4IDg4LjU5IDM2LjI4MThDOTkuMjc0MiAzNi4yODE4IDEwOS4wNjggMzkuMzk4IDExNy4zMDQgNDQuOTYyN0wxNDIuOTAxIDE4LjkyQzEyNy45ODggNy4xMjI4MSAxMDguODQ1IDAgODguMzY3NCAwWk0xNTcuNTkyIDMzLjYxMDhMMTMxLjU0OSA1OS42NTM1QzEzNi44OTIgNjcuODg5MyAxNDAuMjMgNzcuNjgzMiAxNDAuMjMgODguMzY3NEMxNDAuMjMgOTguODI5IDEzNy4xMTQgMTA0Ljg0NSAxMzEuNTQ5IDExNy4wODFMMTU3LjU5MiAxNDMuMTI0QzE2OS4zODkgMTI4LjIxMSAxNzYuNTEyIDEwOS4wNjggMTc2LjUxMiA4OC41OUMxNzYuNTEyIDY4LjExMTkgMTY5LjM4OSA0OC43NDY3IDE1Ny41OTIgMzMuNjEwOFoiIGZpbGw9IiNGRjRBMDAiLz4KPC9zdmc+Cg==" alt="Influx">
+            </a>
+        </div>
+    </header>
+    <div class="metrics-grid">
+        <div class="metric-card orange">
+            <div class="metric-label">AI Agent CSAT</div>
+            <div class="metric-value">4.4<span class="metric-unit"> /5</span></div>
+            <div class="metric-desc">Strong satisfaction score reflecting consistent, helpful AI responses across interactions.</div>
+            <div class="badge excellent">✦ Excellent</div>
+        </div>
+        <div class="metric-card blue">
+            <div class="metric-label">Closed Tickets</div>
+            <div class="metric-value">98</div>
+            <div class="metric-desc">Total tickets fully resolved by the AI Agent this period with no human escalation needed.</div>
+            <div class="badge strong">▲ High Volume</div>
+        </div>
+        <div class="metric-card green">
+            <div class="metric-label">First Response</div>
+            <div class="metric-value">21<span class="metric-unit">s</span></div>
+            <div class="metric-desc">Near-instant first replies ensure customers get help the moment they reach out.</div>
+            <div class="badge excellent">✦ Instant</div>
+        </div>
+        <div class="metric-card green">
+            <div class="metric-label">Avg Response</div>
+            <div class="metric-value">22<span class="metric-unit">s</span></div>
+            <div class="metric-desc">Consistent sub-30s response time maintained across all follow-up interactions.</div>
+            <div class="badge excellent">✦ Excellent</div>
+        </div>
+    </div>
+    <div class="section delay-1">
+        <div class="section-header">
+            <div class="section-icon amber-bg">⚠</div>
+            <div class="section-title">CSAT Issue Breakdown</div>
+        </div>
+        <div class="section-body">
+            <strong>Primary drivers:</strong> Shipment tracking inquiries and the recurring <strong>$20 credit issue</strong> were the main friction points. Customers expected more specific tracking details and clearer credit-related responses from the AI Agent.
+        </div>
+        <div class="ticket-list">
+            <a href="https://florencemarinex.gorgias.com/app/ticket/429003630" target="_blank" class="ticket-link">#429003630</a>
+            <a href="https://florencemarinex.gorgias.com/app/ticket/429248203" target="_blank" class="ticket-link">#429248203</a>
+            <a href="https://florencemarinex.gorgias.com/app/ticket/430304660" target="_blank" class="ticket-link">#430304660</a>
+        </div>
+        <div class="resolved-tag">✓ Action Taken — Knowledge base updated</div>
+    </div>
+    <div class="section delay-2">
+        <div class="section-header">
+            <div class="section-icon red-bg">⚙</div>
+            <div class="section-title">Context Engineering Update</div>
+        </div>
+        <div class="section-body">
+            <strong>Context poisoning</strong> incidents increased due to recently added knowledge snippets introducing conflicting information. To prevent recurrence, the <strong>AI Agent Manager is now actively reviewing all knowledge updates</strong> and injecting corrective context where needed before deployment.
+        </div>
+    </div>
+    <div class="highlights">
+        <div class="section-header">
+            <div class="section-icon orange-bg">🏆</div>
+            <div class="section-title">Performance Highlights</div>
+        </div>
+        <div class="highlight-items">
+            <div class="highlight-item">
+                <div class="check">✓</div>
+                <div><strong>4.4/5 CSAT</strong> — top-tier satisfaction maintained despite tracking and credit friction</div>
+            </div>
+            <div class="highlight-item">
+                <div class="check">✓</div>
+                <div><strong>98 tickets closed</strong> — fully autonomous resolution within the 13-day period</div>
+            </div>
+            <div class="highlight-item">
+                <div class="check">✓</div>
+                <div><strong>21s first response</strong> — near-instant customer engagement around the clock</div>
+            </div>
+            <div class="highlight-item">
+                <div class="check">✓</div>
+                <div><strong>Proactive remediation</strong> — knowledge updated and context review process now in place</div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-text">Florence Marine X — Influx AI Agent Management</div>
+        <div class="footer-brand">Report generated <span>Feb 14, 2026</span></div>
+    </footer>
+</div>
+</body>
+</html>
